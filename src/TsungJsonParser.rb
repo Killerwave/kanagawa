@@ -38,12 +38,35 @@ class TsungJsonParser
 		return return_code if @datas.nil? 
 		return return_code if @datas.count == 0
 
+    # break if error occured
 		@datas.last['samples'].each do |sample|
 			return return_code if sample.nil?
 			if sample['name'] == 'error_connect_nxdomain' && sample['total'] >= 1
 				return_code = :break
 			end
 		end
+
+    # get last 2 transactions mean load time
+    set = Hash.new
+		@datas.last(2).each do |data|
+      return return_code if data.nil?
+      data['samples'].each do |sample|
+			  return return_code if sample.nil?
+        if sample['name'][0,3].eql? "tr_"
+          set[sample['name']] = Array.new if set[sample['name']].nil?
+          set[sample['name']] << sample['mean']
+        end
+      end
+		end
+
+    # break if all data for same transaction name is greater than 1
+    set.each do |name, transaction|
+      last_mean = 0
+      transaction.each do |mean|
+				return_code = :break if last_mean > 1 && mean > 1
+        last_mean = mean
+      end
+    end
 
 		return return_code
 	end
