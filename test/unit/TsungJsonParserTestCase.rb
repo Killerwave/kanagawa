@@ -9,7 +9,7 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
    	  {"name": "finish_users_count", "value": 0, "total": 0},
    	  {"name": "error_connect_nxdomain", "value": 1, "total": 1}]}'
 
-		assert_add_json_status_code_equal(:break,json_data)
+		assert_when_add_json_status_code_equal(:break,json_data)
 	end
 
 	def test_status_return_ok_when_no_error_occurred
@@ -28,11 +28,11 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 			{"name": "size_sent", "value": 54, "total": 54}, 
 			{"name": "connected", "value": 0, "max": 0}]}' 
 
-		assert_add_json_status_code_equal(:ok,json_data)
+		assert_when_add_json_status_code_equal(:ok,json_data)
 	end
 
 	def test_status_return_ok_when_no_data
-		assert_add_json_status_code_equal(:ok,nil)
+		assert_when_add_json_status_code_equal(:ok,nil)
 	end
 
 	def test_tsung_parser_count_equal_0_when_adding_nil_data
@@ -92,9 +92,7 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
 	end
 
   def test_tsung_parser_status_return_break_when_the_mean_load_time_of_last_transactions_is_greater_than_1_second
-    tsung_parser = TsungJsonParser.new()
-    json_string = 
-    '{
+    json_string = '{
  "stats": [
  {"timestamp": 1328782359,  "samples": []},
  {"timestamp": 1328782369,  "samples": [   {"name": "users", "value": 0, "max": 0}, {"name": "users_count", "value": 0, "total": 0}, {"name": "finish_users_count", "value": 0, "total": 0}]},
@@ -104,15 +102,12 @@ class TsungJsonParserTestCase < Test::Unit::TestCase
  {"timestamp": 1328782409,  "samples": [   {"name": "users", "value": 0, "max": 2}, {"name": "freemem", "hostname": "localhost", "value": 1, "mean": 2861.34765625,"stdvar": 0.0,"max": 2861.43359375,"min": 2845.4765625 ,"global_mean": 2851.06640625 , "global_count": 3}, {"name": "cpu", "hostname": "localhost", "value": 1, "mean": 2.35,              "stdvar": 0.0,"max": 5.75,             "min": 2.35 ,              "global_mean": 4.899956985008836 ,"global_count": 3}, {"name": "load", "hostname": "localhost", "value": 1, "mean": 0.21875,   "stdvar": 0.0,"max": 0.30859375,"min": 0.21875 ,   "global_mean": 0.2838541666666667 ,"global_count": 3}, {"name": "session", "value": 8,  "mean": 115.684814453125, "stdvar": 77.69505798150477, "max":  309.12890625,    "min": 67.169921875 ,"global_mean": 78.61894226074219 ,"global_count": 32}, {"name": "users_count", "value": 8,  "total": 40}, {"name": "finish_users_count", "value": 8,  "total": 40}, {"name": "request", "value": 8,  "mean": 113.41543579101563,"stdvar": 77.67002998883223, "max":  306.796875,  "min": 64.940185546875 ,"global_mean": 76.30484771728516 ,"global_count": 32}, {"name": "page", "value": 8,  "mean": 113.41543579101563,"stdvar": 77.67002998883223, "max":  306.796875,  "min": 64.940185546875 ,"global_mean": 76.30484771728516 ,"global_count": 32}, {"name": "connect", "value": 8,  "mean": 50.61212158203125, "stdvar": 34.680065659506276,"max":  117.093994140625,"min": 29.0859375 ,"global_mean": 35.216217041015625 ,"global_count": 32}, {"name": "tr_01_root", "value": 8,  "mean": 1113.74478149414063,"stdvar": 77.70659402976717, "max":  307.218017578125,"min": 65.214111328125 ,"global_mean": 76.691650390625 ,  "global_count": 32}, {"name": "match", "value": 8, "total": 40},  {"name": "http_200", "value": 40, "total": 40}, {"name": "size_rcv", "value": 29559, "total": 146871}, {"name": "size_sent", "value": 432, "total": 2160}, {"name": "connected", "value": 0, "max": 0}]},
  {"timestamp": 1328782419,  "samples": [   {"name": "users", "value": 0, "max": 2}, {"name": "freemem", "hostname": "localhost", "value": 1, "mean": 2861.21484375,"stdvar": 0.0,"max": 2861.43359375,"min": 2845.4765625 ,"global_mean": 2853.63671875 , "global_count": 4}, {"name": "cpu", "hostname": "localhost", "value": 1, "mean": 1.5484515484515484,"stdvar": 0.0,"max": 5.75,             "min": 1.5484515484515484 ,"global_mean": 4.262467738756627 ,"global_count": 4}, {"name": "load", "hostname": "localhost", "value": 1, "mean": 0.19140625,"stdvar": 0.0,"max": 0.30859375,"min": 0.19140625 ,"global_mean": 0.267578125 ,       "global_count": 4}, {"name": "session", "value": 8,  "mean": 77.72036743164063,"stdvar": 16.2682788613853,  "max":  309.12890625,    "min": 67.169921875 ,"global_mean": 86.03211669921875 ,"global_count": 40}, {"name": "users_count", "value": 8,  "total": 48}, {"name": "finish_users_count", "value": 8,  "total": 48}, {"name": "request", "value": 8,  "mean": 75.51071166992188, "stdvar": 16.25711116003825, "max":  306.796875,  "min": 64.940185546875 ,"global_mean": 83.72696533203126 ,"global_count": 40}, {"name": "page", "value": 8,  "mean": 75.51071166992188, "stdvar": 16.25711116003825, "max":  306.796875,  "min": 64.940185546875 ,"global_mean": 83.72696533203126 ,"global_count": 40}, {"name": "connect", "value": 8,  "mean": 32.428497314453125,"stdvar": 3.6319734187567354,"max":  117.093994140625,"min": 29.0859375 ,"global_mean": 38.29539794921875 , "global_count": 40}, {"name": "tr_01_root", "value": 8,  "mean": 1175.78866577148438,"stdvar": 16.261848490395863,"max":  307.218017578125,"min": 65.214111328125 ,"global_mean": 84.10227661132812 ,"global_count": 40}, {"name": "match", "value": 8, "total": 48},  {"name": "http_200", "value": 48, "total": 48}, {"name": "size_rcv", "value": 29328, "total": 176199}, {"name": "size_sent", "value": 432, "total": 2592}, {"name": "connected", "value": 0, "max": 0}, {"name": "error_abort", "value": 1, "total": 1}]}]}'
 
-    tsung_parser.add_string(json_string)
-
-    assert_equal(:break,tsung_parser.status?)
-
+    assert_when_add_string_status_code_equal (:break, json_string)
   end
 
 end
 
-def assert_add_json_status_code_equal return_code, json_data
+def assert_when_add_json_status_code_equal return_code, json_data
   tsung_parser = TsungJsonParser.new()
 
   tsung_parser.add_json(json_data)
@@ -126,4 +121,12 @@ def assert_when_adding_string_tsung_parser_count_equal count, string
   tsung_parser.add_string(string)
       
   assert_equal(count,tsung_parser.count)
+end
+
+def assert_when_add_string_status_code_equal return_code, json_str
+  tsung_parser = TsungJsonParser.new()
+
+  tsung_parser.add_string(json_str)
+
+  assert_equal(return_code,tsung_parser.status?)
 end
