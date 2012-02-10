@@ -42,7 +42,7 @@ class TsungJsonParser
 		@datas.last['samples'].each do |sample|
 			return return_code if sample.nil?
 			if sample['name'] == 'error_connect_nxdomain' && sample['total'] >= 1
-				return_code = :break
+				return :break
 			end
 		end
 
@@ -63,7 +63,7 @@ class TsungJsonParser
     set.each do |name, transaction|
       last_mean = 0
       transaction.each do |mean|
-				return_code = :break if last_mean > 1 && mean > 1
+				return :break if last_mean > 1 && mean > 1
         last_mean = mean
       end
     end
